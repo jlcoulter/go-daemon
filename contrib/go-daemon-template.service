@@ -1,0 +1,17 @@
+[Unit]
+Description=Go Daemon Template Service
+After=network.target
+
+[Service]
+Type=simple
+User=go-daemon
+Group=go-daemon
+ExecStart=/usr/local/bin/daemon
+Restart=on-failure
+RestartSec=5
+Environment=PORT=8080
+Environment=DAEMON_PORT=2222
+Environment=LOG_LEVEL=info
+
+[Install]
+WantedBy=multi-user.target

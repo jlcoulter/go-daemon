@@ -1,0 +1,42 @@
+version: 2
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    main: ./cmd/daemon
+    binary: daemon
+
+archives:
+  - formats:
+      - tar.gz
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- .Version }}_
+      {{- .Os }}_
+      {{- .Arch }}
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+
+nfpms:
+  - id: default
+    package_name: go-daemon-template
+    maintainer: jlcoulter
+    description: A long-running Go daemon
+    license: MIT
+    contents:
+      - src: contrib/go-daemon-template.service
+        dst: /etc/systemd/system/go-daemon-template.service
